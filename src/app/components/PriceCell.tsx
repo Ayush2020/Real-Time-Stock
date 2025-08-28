@@ -6,18 +6,19 @@ type PriceCellProps = {
 };
 
 export default function PriceCell({ value }: PriceCellProps) {
-  const [cls, setCls] = useState("price-neutral"); 
+  const [cls, setCls] = useState("text-gray-700"); // neutral (default)
   const prev = useRef<number>(value);
 
   useEffect(() => {
     if (prev.current !== value) {
       if (value > prev.current) {
-        setCls("price-up");   // green text
+        setCls("text-green-500 font-semibold transition-colors duration-500"); 
       } else if (value < prev.current) {
-        setCls("price-down"); // red text
+        setCls("text-red-500 font-semibold transition-colors duration-500"); 
+      } else {
+        setCls("text-gray-700"); // neutral
       }
       prev.current = value;
-      
     }
   }, [value]);
 

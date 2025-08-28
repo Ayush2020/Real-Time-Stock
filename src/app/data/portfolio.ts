@@ -61,7 +61,14 @@ export const holdings = [
     stockName: "AAPL",
     purchasePrice: 6466,
     quantity: 15,
-    sector: "Finance",
+    sector: "Tech",
+    targetExchange: "",
+  },
+  {
+    stockName: "TSLA",
+    purchasePrice: 100,
+    quantity: 23,
+    sector: "Tech",
     targetExchange: "",
   },
 ];

@@ -1,21 +1,8 @@
-// import { Table } from "@/components/ui/table";
-// import Image from "next/image";
-
-// export default function Home() {
-//   return (
-//      <main className="p-6">
-//       <h1 className="text-2xl font-bold mb-4">📊 Real-Time Portfolio Dashboard</h1>
-//       <Table />
-//     </main>
-//   );
-// }
-
-// app/page.tsx
 import Table from "@/app/components/Table";
 import { Holding } from "@/lib/types";
 import { GET } from "./api/stocks/route";
 import SummaryTable from "./components/SummaryTable";
-import { holdings } from "./data/portfolio";
+
 
 export default async function Home() {
   const response = await GET();

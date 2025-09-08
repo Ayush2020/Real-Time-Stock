@@ -23,13 +23,24 @@ export async function GET() {
     promiseArray.push(apiPromise);
     // console.log("promise ready for quote:" + holdItem.stockName);
   }
+
   const response = await Promise.all(promiseArray);
   console.log(`response: ${JSON.stringify(response, null, 2)}`);
+
+  const totalPortfolioValue = holdings.reduce((acc, h) => {
+    const apiData = response.find(
+      (r) =>
+        (h.targetExchange ? h.stockName + ".NS" : h.stockName) === r?.symbol
+    );
+    if (!apiData) return acc;
+    const cmp = apiData.regularMarketPrice || 0;
+    return acc + cmp * h.quantity;
+  }, 0);
+
+
   const finalData: Holding[] = [];
   response.forEach((item) => {
-    // const stockSymbol = holdItem.targetExchange
-    //       ? holdItem.stockName + "." + holdItem.targetExchange
-    //       : holdItem.stockName
+
     const holdingObject = holdings.find(
       (holdingItem) =>
         (holdingItem.targetExchange
@@ -43,11 +54,11 @@ export async function GET() {
       const gainLoss = presentValue - investment;
       const sector = holdingObject.sector;
       const exchange = item.fullExchangeName;
-      const latestEarnings = 0;
-      const peRatio = item.priceEpsCurrentYear || 0;
+      const latestEarnings = item.epsTrailingTwelveMonths || 0;
+      const peRatio = item.priceEpsCurrentYear?.toFixed(2) || 0;
       const quantity = holdingObject.quantity;
       const purchasePrice = holdingObject.purchasePrice;
-      const portfolioPercentage = 0;
+      const portfolioPercentage =  totalPortfolioValue ? (presentValue / totalPortfolioValue * 100).toFixed(2) : 0;
       const longName = item.longName || holdingObject.stockName;
       const shortName = holdingObject.stockName;
 

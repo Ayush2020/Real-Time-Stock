@@ -6,7 +6,7 @@ type PriceCellProps = {
 };
 
 export default function PriceCell({ value }: PriceCellProps) {
-  const [cls, setCls] = useState("text-gray-700"); // neutral (default)
+  const [cls, setCls] = useState("text-gray-700"); 
   const prev = useRef<number>(value);
 
   useEffect(() => {

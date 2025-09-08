@@ -29,7 +29,6 @@ export default function PortfolioTable({ initialData }: Props) {
     fetchPortfolio();
     const interval = setInterval(async () => {
       const longPoolingData = await fetchPortfolio();
-      // console.log(longPoolingData);
       setData(longPoolingData);
     }, 5000);
     return () => clearInterval(interval);
@@ -97,12 +96,6 @@ export default function PortfolioTable({ initialData }: Props) {
         row.original.latestEarnings ? row.original.latestEarnings : "-",
     },
   ];
-
-  const table = useReactTable({
-    data: filteredData,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
 
   const sectors = ["All", ...new Set(data.map((d) => d.sector))];
 

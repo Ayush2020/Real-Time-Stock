@@ -2,11 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { fetchPortfolio } from "@/lib/fetchData";
-import {
-  ColumnDef,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
 
 import {
   Select,
@@ -39,63 +34,6 @@ export default function PortfolioTable({ initialData }: Props) {
       ? data
       : data.filter((h) => h.sector === selectedSector);
 
-  const columns: ColumnDef<Holding>[] = [
-    { header: "Particulars", accessorKey: "stockName" },
-    {
-      header: "Purchase Price",
-      accessorKey: "purchasePrice",
-      cell: ({ row }) =>
-        row.original.purchasePrice
-          ? row.original.purchasePrice.toFixed(2)
-          : "-",
-    },
-    { header: "Qty", accessorKey: "qty" },
-    {
-      header: "Investment",
-      accessorKey: "investment",
-      cell: ({ row }) => row.original.investment.toFixed(2),
-    },
-    {
-      header: "Portfolio %",
-      accessorKey: "portfolioPercent",
-      cell: ({ row }) =>
-        (row.original.portfolioPercentage * 100).toFixed(2) + "%",
-    },
-    { header: "NSE/BSE", accessorKey: "exchange" },
-    {
-      header: "CMP",
-      accessorKey: "cmp",
-      cell: ({ row }) => row.original.cmp.toFixed(2),
-    },
-    {
-      header: "Present Value",
-      accessorKey: "presentValue",
-      cell: ({ row }) => row.original.presentValue.toFixed(2),
-    },
-    {
-      header: "Gain/Loss",
-      accessorKey: "gainLoss",
-      cell: ({ row }) => {
-        const val = row.original.gainLoss;
-        return (
-          <span className={val >= 0 ? "text-green-600" : "text-red-600"}>
-            {val.toFixed(2)}
-          </span>
-        );
-      },
-    },
-    {
-      header: "P/E Ratio",
-      accessorKey: "peRatio",
-      cell: ({ row }) => row.original.peRatio,
-    },
-    {
-      header: "Latest Earnings",
-      accessorKey: "latestEarnings",
-      cell: ({ row }) =>
-        row.original.latestEarnings ? row.original.latestEarnings : "-",
-    },
-  ];
 
   const sectors = ["All", ...new Set(data.map((d) => d.sector))];
 
@@ -201,7 +139,7 @@ export default function PortfolioTable({ initialData }: Props) {
                 <td className="px-4 py-3 text-right">
                   <PriceCell value={rowData.cmp} />
                 </td>
-                <td className="px-4 py-3 text-right">{rowData.presentValue}</td>
+                <td className="px-4 py-3 text-right">{(rowData.presentValue).toFixed(2)}</td>
                 <td className="px-4 py-3 text-right">
                   <span
                     className={
@@ -219,7 +157,7 @@ export default function PortfolioTable({ initialData }: Props) {
                 </td>
                 <td className="px-4 py-3">IT Services</td>
                 <td className="px-4 py-3 text-right">
-                  {rowData.portfolioPercentage}
+                  {rowData.portfolioPercentage + " %"}
                 </td>
               </tr>
             ))}
